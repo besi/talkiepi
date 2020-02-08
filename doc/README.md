@@ -36,9 +36,9 @@ export GOBIN=/home/mumble/bin
 cd $GOPATH
 
 go get github.com/dchote/gopus
-go get github.com/dchote/talkiepi
+go get github.com/besi/talkiepi
 
-cd $GOPATH/src/github.com/dchote/talkiepi
+cd $GOPATH/src/github.com/besi/talkiepi
 
 go build -o /home/mumble/bin/talkiepi cmd/talkiepi/main.go 
 ```
@@ -48,7 +48,7 @@ go build -o /home/mumble/bin/talkiepi cmd/talkiepi/main.go
 
 As root on your Raspberry Pi (`sudo -i`), copy mumble.service in to place:
 ```
-cp /home/mumble/gocode/src/github.com/dchote/talkiepi/conf/systemd/mumble.service /etc/systemd/system/mumble.service
+cp /home/mumble/gocode/src/github.com/besi/talkiepi/conf/systemd/mumble.service /etc/systemd/system/mumble.service
 
 systemctl enable mumble.service
 ```
