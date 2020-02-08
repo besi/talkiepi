@@ -167,6 +167,7 @@ func (b *Talkiepi) ParticipantLEDUpdate() {
 	if participantCount > 1 {
 		fmt.Printf("Channel '%s' has %d participants\n", b.Client.Self.Channel.Name, participantCount)
 		b.LEDOn(b.ParticipantsLED)
+		b.LEDOff(b.OnlineLED)
 	} else {
 		fmt.Printf("Channel '%s' has no other participants\n", b.Client.Self.Channel.Name)
 		b.LEDOff(b.ParticipantsLED)
