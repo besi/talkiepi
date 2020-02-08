@@ -2,6 +2,7 @@ package talkiepi
 
 import (
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/dchote/gpio"
@@ -18,16 +19,25 @@ func (b *Talkiepi) initGPIO() {
 		b.GPIOEnabled = true
 	}
 
-	ButtonPinPullUp := rpio.Pin(ButtonPin)
+	ButtonPinPullUp := rpio.Pin(TransmitButtonPin)
 	ButtonPinPullUp.PullUp()
+	ButtonExitPullUp := rpio.Pin(ExitButtonPin)
+	ButtonExitPullUp.PullUp()
 
 	rpio.Close()
 
 	// unfortunately the gpio watcher stuff doesnt work for me in this context, so we have to poll the button instead
-	b.Button = gpio.NewInput(ButtonPin)
+	b.TransmitButton = gpio.NewInput(TransmitButtonPin)
+	b.ExitButton = gpio.NewInput(ExitButtonPin)
 	go func() {
 		for {
-			currentState, err := b.Button.Read()
+			currentState, err := b.TransmitButton.Read()
+			exitState, err := b.ExitButton.Read()
+
+			if exitState == 0{
+				fmt.Printf("Good Bye...\n")
+				os.Exit(0)
+			}
 
 			if currentState != b.ButtonState && err == nil {
 				b.ButtonState = currentState
