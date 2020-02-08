@@ -88,6 +88,7 @@ func (b *Talkiepi) TransmitStart() {
 
 	// turn on our transmit LED
 	b.LEDOn(b.TransmitLED)
+	b.LEDOff(b.OnlineLED) // Turn off green so red works with the dual LED
 
 	b.Stream.StartSource()
 }
