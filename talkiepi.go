@@ -10,7 +10,7 @@ import (
 
 // Raspberry Pi GPIO pin assignments (CPU pin definitions)
 const (
-	OnlineLEDPin       uint = 22
+	OnlineLEDPin       uint = 22 // green
 	ParticipantsLEDPin uint = 23 // red
 	TransmitLEDPin     uint = 22 // green
 	TransmitButtonPin  uint = 27 // green
