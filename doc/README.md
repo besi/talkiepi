@@ -23,15 +23,13 @@ usermod -a -G cdrom,audio,video,plugdev,users,dialout,dip,input,gpio mumble
 
 As root on your Raspberry Pi (`sudo -i`), install golang and other required dependencies, then build talkiepi:
 ```
-apt-get install golang libopenal-dev libopus-dev git
-
-su mumble
+apt-get install golang libopenal-dev libopus-dev git -y
 
 mkdir ~/gocode
 mkdir ~/bin
 
-export GOPATH=/home/mumble/gocode
-export GOBIN=/home/mumble/bin
+export GOPATH=/home/pi/gocode
+export GOBIN=/home/pi/bin
 
 cd $GOPATH
 
@@ -40,7 +38,7 @@ go get github.com/besi/talkiepi
 
 cd $GOPATH/src/github.com/besi/talkiepi
 
-go build -o /home/mumble/bin/talkiepi cmd/talkiepi/main.go 
+go build -o /home/pi/bin/talkiepi cmd/talkiepi/main.go 
 ```
 
 
@@ -48,7 +46,7 @@ go build -o /home/mumble/bin/talkiepi cmd/talkiepi/main.go
 
 As root on your Raspberry Pi (`sudo -i`), copy mumble.service in to place:
 ```
-cp /home/mumble/gocode/src/github.com/besi/talkiepi/conf/systemd/mumble.service /etc/systemd/system/mumble.service
+cp /home/pi/gocode/src/github.com/besi/talkiepi/conf/systemd/mumble.service /etc/systemd/system/mumble.service
 
 systemctl enable mumble.service
 ```
@@ -57,9 +55,7 @@ systemctl enable mumble.service
 
 This is optional, mainly if you want to register your talkiepi against a mumble server and apply ACLs.
 ```
-su mumble
 cd ~
-
 openssl genrsa -aes256 -out key.pem
 ```
 
@@ -81,7 +77,7 @@ Enter your password for the last time.
 cat nopasskey.pem cert.pem > mumble.pem
 ```
 
-Now as root again (`sudo -i`), edit `/etc/systemd/system/mumble.service` appending `-username USERNAME_TO_REGISTER -certificate /home/mumble/mumble.pem` at the end of `ExecStart = /home/mumble/bin/talkiepi`
+Now as root again (`sudo -i`), edit `/etc/systemd/system/mumble.service` appending `-username USERNAME_TO_REGISTER -certificate /home/pi/mumble.pem` at the end of `ExecStart = /home/pi/bin/talkiepi`
 
 Run `systemctl daemon-reload` and then `service mumble restart` and you should be set with a tls certificate!
 
